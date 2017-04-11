@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
@@ -77,15 +79,15 @@ public class RemoveListDialogFragment extends DialogFragment {
         removeListData.put("/" + Constants.FIREBASE_LOCATION_SHOPPING_LIST_ITEMS + "/"
                 + mListId, null);
 
-        Firebase firebaseRef = new Firebase(Constants.FIREBASE_URL);
+        DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL);//new Firebase(Constants.FIREBASE_URL);
 
         /* Do a deep-path update */
-        firebaseRef.updateChildren(removeListData, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+        firebaseRef.updateChildren(removeListData, new DatabaseReference.CompletionListener(){
 
-                if (firebaseError != null) {
-                    Log.e(LOG_TAG, getString(R.string.log_error_updating_data) + firebaseError.getMessage());
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Log.e(LOG_TAG, getString(R.string.log_error_updating_data) + databaseError.getMessage());
                 }
             }
         });

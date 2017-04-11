@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.firebase.client.Query;
-import com.firebase.ui.FirebaseListAdapter;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.Query;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 
@@ -28,7 +29,7 @@ public class ActiveListAdapter extends FirebaseListAdapter<ShoppingList> {
      * with items inflated from single_active_list.xml
      * populateView also handles data changes and updates the listView accordingly
      */
-    @Override
+
     protected void populateView(View view, ShoppingList list) {
 
         /**
@@ -41,5 +42,10 @@ public class ActiveListAdapter extends FirebaseListAdapter<ShoppingList> {
         /* Set the list name and owner */
         textViewListName.setText(list.getListName());
         textViewCreatedByUser.setText(list.getOwner());
+    }
+
+    @Override
+    protected void populateView(View v, ShoppingList model, int position) {
+
     }
 }

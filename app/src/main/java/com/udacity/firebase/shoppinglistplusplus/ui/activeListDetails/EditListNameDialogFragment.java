@@ -3,8 +3,10 @@ package com.udacity.firebase.shoppinglistplusplus.ui.activeListDetails;
 import android.app.Dialog;
 import android.os.Bundle;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.ServerValue;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
@@ -72,7 +74,7 @@ public class EditListNameDialogFragment extends EditListDialogFragment {
                  * If editText input is not equal to the previous name
                  */
                 if (!inputListName.equals(mListName)) {
-                    Firebase shoppingListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).
+                    DatabaseReference shoppingListRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL_ACTIVE_LISTS).
                             child(mListId);
 
                     /* Make a Hashmap for the specific properties you are changing */

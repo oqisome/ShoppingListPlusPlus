@@ -7,10 +7,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.Query;
-import com.firebase.client.ServerValue;
-import com.firebase.ui.FirebaseListAdapter;
+
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingListItem;
@@ -30,7 +31,7 @@ public class ActiveListItemAdapter extends FirebaseListAdapter<ShoppingListItem>
      * Public constructor that initializes private instance variables when adapter is created
      */
     public ActiveListItemAdapter(Activity activity, Class<ShoppingListItem> modelClass, int modelLayout,
-                                 Query ref, String listId) {
+                                 DatabaseReference ref, String listId) {
         super(activity, modelClass, modelLayout, ref);
         this.mActivity = activity;
         this.mListId = listId;
@@ -93,7 +94,7 @@ public class ActiveListItemAdapter extends FirebaseListAdapter<ShoppingListItem>
     }
 
     private void removeItem(String itemId) {
-        Firebase firebaseRef = new Firebase(Constants.FIREBASE_URL);
+        DatabaseReference firebaseRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL);
 
         /* Make a map for the removal */
         HashMap<String, Object> updatedRemoveItemMap = new HashMap<String, Object>();

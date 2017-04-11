@@ -9,12 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingListItem;
@@ -26,11 +29,13 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
  */
 public class ActiveListDetailsActivity extends BaseActivity {
     private static final String LOG_TAG = ActiveListDetailsActivity.class.getSimpleName();
-    private Firebase mActiveListRef;
+    //private Firebase mActiveListRef;
+    private DatabaseReference mActiveListRef;
     private ActiveListItemAdapter mActiveListItemAdapter;
     private ListView mListView;
     private String mListId;
     private ShoppingList mShoppingList;
+    private ChildEventListener mChildEventListener;
     private ValueEventListener mActiveListRefListener;
 
     @Override
@@ -50,8 +55,9 @@ public class ActiveListDetailsActivity extends BaseActivity {
         /**
          * Create Firebase references
          */
-        mActiveListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mListId);
-        Firebase listItemsRef = new Firebase(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS).child(mListId);
+        //mActiveListRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mListId);
+        mActiveListRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL_ACTIVE_LISTS).child(mListId);
+        DatabaseReference listItemsRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL_SHOPPING_LIST_ITEMS).child(mListId);
 
 
         /**
@@ -66,7 +72,7 @@ public class ActiveListDetailsActivity extends BaseActivity {
         mActiveListItemAdapter = new ActiveListItemAdapter(this, ShoppingListItem.class,
                 R.layout.single_active_list_item, listItemsRef, mListId);
         /* Create ActiveListItemAdapter and set to listView */
-        mListView.setAdapter(mActiveListItemAdapter);
+        mListView.setAdapter((ListAdapter) mActiveListItemAdapter);
 
         /**
          * Add ValueEventListeners to Firebase references
@@ -79,16 +85,9 @@ public class ActiveListDetailsActivity extends BaseActivity {
          * variable an update the UI to match the current list.
          */
         mActiveListRefListener = mActiveListRef.addValueEventListener(new ValueEventListener() {
-
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
-
-                /**
-                 * Saving the most recent version of current shopping list into mShoppingList if present
-                 * finish() the activity if the list is null (list was removed or unshared by it's owner
-                 * while current user is in the list details activity)
-                 */
-                ShoppingList shoppingList = snapshot.getValue(ShoppingList.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
 
                 if (shoppingList == null) {
                     finish();
@@ -113,10 +112,10 @@ public class ActiveListDetailsActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
                 Log.e(LOG_TAG,
                         getString(R.string.log_error_the_read_failed) +
-                                firebaseError.getMessage());
+                                databaseError.getMessage());
             }
         });
 

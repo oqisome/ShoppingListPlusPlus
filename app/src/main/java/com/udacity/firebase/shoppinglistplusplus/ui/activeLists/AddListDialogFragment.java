@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
-import com.firebase.client.ServerValue;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
@@ -108,8 +110,8 @@ public class AddListDialogFragment extends DialogFragment {
             /**
              * Create Firebase references
              */
-            Firebase listsRef = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
-            Firebase newListRef = listsRef.push();
+            DatabaseReference listsRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL_ACTIVE_LISTS);
+            DatabaseReference newListRef = listsRef.push();
 
             /* Save listsRef.push() to maintain same random Id */
             final String listId = newListRef.getKey();
@@ -122,8 +124,12 @@ public class AddListDialogFragment extends DialogFragment {
             timestampCreated.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
 
             /* Build the shopping list */
+            Log.d("a",userEnteredName.toString());
+            Log.d("a",owner.toString());
+            Log.d("a", String.valueOf(timestampCreated));
             ShoppingList newShoppingList = new ShoppingList(userEnteredName, owner,
                     timestampCreated);
+
 
             /* Add the shopping list */
             newListRef.setValue(newShoppingList);

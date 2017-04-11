@@ -14,7 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.AuthData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -132,7 +134,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * Sign in with Password provider (used when user taps "Done" action on keyboard)
      */
-    public void signInPassword() {
+   public void signInPassword() {
     }
 
     /**
@@ -140,7 +142,7 @@ public class LoginActivity extends BaseActivity {
      * logs in with Firebase's email/password provider.
      * @param authData AuthData object returned from onAuthenticated
      */
-    private void setAuthenticatedUserPasswordProvider(AuthData authData) {
+  /*  private void setAuthenticatedUserPasswordProvider(AuthData authData) {
     }
 
     /**
@@ -148,10 +150,10 @@ public class LoginActivity extends BaseActivity {
      * logs in with Firebase's Google login provider.
      * @param authData AuthData object returned from onAuthenticated
      */
-    private void setAuthenticatedUserGoogle(AuthData authData){
+ /*   private void setAuthenticatedUserGoogle(AuthData authData){
 
     }
-
+*/
     /**
      * Show error toast to users
      */
