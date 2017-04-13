@@ -38,6 +38,7 @@ public class ShoppingListsFragment extends Fragment {
     private ValueEventListener mActiveListRefListener;
     private ShoppingList mShoppingList;
     private List<ShoppingList> shoppingLists;
+    private List<String> shoppingKeyLists;
     private DatabaseReference activeListsRef;
 
 
@@ -61,6 +62,7 @@ public class ShoppingListsFragment extends Fragment {
         if (getArguments() != null) {
         }
         shoppingLists = new ArrayList<>();
+        shoppingKeyLists = new ArrayList<>();
         activeListsRef = FirebaseDatabase.getInstance().getReferenceFromUrl(Constants.FIREBASE_URL_ACTIVE_LISTS);
         mActiveListAdapter = new ActiveListArrayAdapter(getActivity(), R.layout.single_active_list, shoppingLists);
 
@@ -81,10 +83,13 @@ public class ShoppingListsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 shoppingLists.clear();
+                shoppingKeyLists.clear();
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
 
                     ShoppingList shoppingList = childSnapshot.getValue(ShoppingList.class);
+                    String shoppingListKey = childSnapshot.getKey();
                     shoppingLists.add(shoppingList);
+                    shoppingKeyLists.add(shoppingListKey);
 
                 }
 
@@ -122,11 +127,7 @@ public class ShoppingListsFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        shoppingLists.clear();
-        Log.d("-----------------3", Integer.toString(shoppingLists.size()));
-        //mActiveListAdapter.clear();
-        //mActiveListAdapter.notifyDataSetChanged();
-
+        Log.d("-----------------onResume", Integer.toString(shoppingLists.size()));
     }
 
     /**
@@ -146,14 +147,14 @@ public class ShoppingListsFragment extends Fragment {
                     /* Get the list ID using the adapter's get ref method to get the Firebase
                      * ref and then grab the key.
                      */
-                    //Log.d("--------", activeListsRef.getRef().child(selectedList.getListName()).getKey());
+                    //Log.d("--------", shoppingKeyLists.get(position));
 
 
                     //Log.d("--------", itemRef.getKey();
-                    //String listId = mActiveListAdapter.getItemId(position);
-                    //intent.putExtra(Constants.KEY_LIST_ID, listId);
+                    String listId = shoppingKeyLists.get(position);
+                    intent.putExtra(Constants.KEY_LIST_ID, listId);
                     /* Starts an active showing the details for the selected list */
-                    // startActivity(intent);
+                    startActivity(intent);
                      }
                     }
                     });
