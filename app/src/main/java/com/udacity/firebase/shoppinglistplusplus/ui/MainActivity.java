@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity {
              */
             switch (position) {
                 case 0:
-                    fragment = ShoppingListsFragment.newInstance();
+                    fragment =  ShoppingListsFragment.newInstance();
                     break;
                 case 1:
                     fragment = MealsFragment.newInstance();
