@@ -85,14 +85,12 @@ public class ShoppingListsFragment extends Fragment {
                 shoppingLists.clear();
                 shoppingKeyLists.clear();
                 for (DataSnapshot childSnapshot: dataSnapshot.getChildren()) {
-
                     ShoppingList shoppingList = childSnapshot.getValue(ShoppingList.class);
                     String shoppingListKey = childSnapshot.getKey();
                     shoppingLists.add(shoppingList);
                     shoppingKeyLists.add(shoppingListKey);
-
                 }
-
+                Log.d("-----------------onDataChange", Integer.toString(shoppingLists.size()));
                 mActiveListAdapter.notifyDataSetChanged();
             }
 
@@ -112,16 +110,13 @@ public class ShoppingListsFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mActiveListAdapter.clear();
         mActiveListAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        mActiveListAdapter.clear();
-        shoppingLists.clear();
-        mActiveListAdapter.notifyDataSetChanged();
+        Log.d("-----------------onPause", Integer.toString(shoppingLists.size()));
     }
 
     @Override
