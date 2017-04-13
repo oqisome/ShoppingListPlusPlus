@@ -100,7 +100,7 @@ public class AddListDialogFragment extends DialogFragment {
         // Get the string that the user entered into the EditText and make an object with it
         // We'll use "Anonymous Owner" for the owner because we don't have user accounts yet
         String userEnteredName = mEditTextListName.getText().toString();
-        String owner = "Anonymous Owner";
+        String owner = Constants.USER;
 
         /**
          * If EditText input is not empty

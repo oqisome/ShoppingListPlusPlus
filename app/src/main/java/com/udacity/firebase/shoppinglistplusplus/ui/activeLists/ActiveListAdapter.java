@@ -1,10 +1,8 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.Query;
@@ -23,7 +21,6 @@ public class ActiveListAdapter extends FirebaseListAdapter<ShoppingList> {
                              Query ref) {
         super(activity, modelClass, modelLayout, ref);
         this.mActivity = activity;
-        Log.d("AAAAAAAAAAAAAAAAAAAAA", "");
     }
 
     /**

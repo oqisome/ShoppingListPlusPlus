@@ -1,18 +1,12 @@
 package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.Query;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 
@@ -39,10 +33,8 @@ public class ActiveListArrayAdapter extends ArrayAdapter<ShoppingList> {
         TextView textViewCreatedByUser = (TextView) convertView.findViewById(R.id.text_view_created_by_user);
 
         ShoppingList list = getItem(position);
-//Log.d("------------------->", list.getListName());
 
         textViewListName.setText(list.getListName());
-
         textViewCreatedByUser.setText(list.getOwner());
 
         return convertView;

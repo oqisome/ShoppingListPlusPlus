@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,7 +23,6 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 
 /**
@@ -139,13 +137,6 @@ public class ShoppingListsFragment extends Fragment {
 
                 if (selectedList != null) {
                     Intent intent = new Intent(getActivity(), ActiveListDetailsActivity.class);
-                    /* Get the list ID using the adapter's get ref method to get the Firebase
-                     * ref and then grab the key.
-                     */
-                    //Log.d("--------", shoppingKeyLists.get(position));
-
-
-                    //Log.d("--------", itemRef.getKey();
                     String listId = shoppingKeyLists.get(position);
                     intent.putExtra(Constants.KEY_LIST_ID, listId);
                     /* Starts an active showing the details for the selected list */
@@ -154,8 +145,4 @@ public class ShoppingListsFragment extends Fragment {
                     }
                     });
             }
-
-
-
-
 }
